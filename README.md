@@ -130,21 +130,13 @@ ORDER BY 1
 
 7. **Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**:
 ```sql
-SELECT 
-       year,
-       month,
-    avg_sale
-FROM 
-(    
-SELECT 
-    EXTRACT(YEAR FROM sale_date) as year,
-    EXTRACT(MONTH FROM sale_date) as month,
-    AVG(total_sale) as avg_sale,
-    RANK() OVER(PARTITION BY EXTRACT(YEAR FROM sale_date) ORDER BY AVG(total_sale) DESC) as rank
+SELECT DISTINCT ON (EXTRACT(YEAR FROM sale_date)) 
+    EXTRACT(YEAR FROM sale_date) AS year,
+    EXTRACT(MONTH FROM sale_date) AS month,
+    AVG(total_sale) AS avg_sale
 FROM retail_sales
-GROUP BY 1, 2
-) as t1
-WHERE rank = 1
+GROUP BY year, month
+ORDER BY year, avg_sale DESC;
 ```
 
 8. **Write a SQL query to find the top 5 customers based on the highest total sales **:
@@ -187,22 +179,27 @@ FROM hourly_sale
 GROUP BY shift
 ```
 
-## Findings
+# Findings
 
-- **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories such as Clothing and Beauty.
-- **High-Value Transactions**: Several transactions had a total sale amount greater than 1000, indicating premium purchases.
-- **Sales Trends**: Monthly analysis shows variations in sales, helping identify peak seasons.
-- **Customer Insights**: The analysis identifies the top-spending customers and the most popular product categories.
+- Customer Profile: Data covers a wide range of customer ages, with purchases spread across multiple product categories including Apparel and Personal Care.
 
-## Reports
+- Large Purchases: A number of transactions exceeded 1000 in sales value, showing evidence of high-ticket orders.
 
-- **Sales Summary**: A detailed report summarizing total sales, customer demographics, and category performance.
-- **Trend Analysis**: Insights into sales trends across different months and shifts.
-- **Customer Insights**: Reports on top customers and unique customer counts per category.
+- Seasonal Patterns: Monthly breakdown highlights fluctuations in sales, revealing busy and slow periods.
 
-## Conclusion
+- Consumer Behavior: Analysis points out the highest-spending customers and identifies the categories with strongest demand.
 
-This project serves as a comprehensive introduction to SQL for data analysts, covering database setup, data cleaning, exploratory data analysis, and business-driven SQL queries. The findings from this project can help drive business decisions by understanding sales patterns, customer behavior, and product performance.
+# Reports
+
+- Overall Performance: Report summarizing revenue, customer breakdown, and category-level sales performance.
+
+- Trend Monitoring: Monthly and time-shift analysis that uncovers how sales evolve over time.
+
+- Customer Reports: Insights into top buyers and counts of unique customers by product category.
+
+# Conclusion
+
+This project demonstrates a complete SQL workflow for retail sales data — from building the database and cleaning records to analysis and reporting. The results provide useful insights into sales dynamics, customer habits, and product success, offering guidance for future business strategies.
 
 ## How to Use
 
@@ -211,17 +208,9 @@ This project serves as a comprehensive introduction to SQL for data analysts, co
 3. **Run the Queries**: Use the SQL queries provided in the `analysis_queries.sql` file to perform your analysis.
 4. **Explore and Modify**: Feel free to modify the queries to explore different aspects of the dataset or answer additional business questions.
 
-## Author - Zero Analyst
+## Author - Van Huu Hien 
 
-This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
+This project is part of my SQL portfolio, highlighting my ability to clean, analyze, and generate insights from retail data. It reflects my learning journey as a Business Analytics student and my interest in data-driven decision making.
 
-### Stay Updated and Join the Community
+If you’d like to connect, share feedback, or discuss collaboration opportunities, feel free to reach out.
 
-For more content on SQL, data analysis, and other data-related topics, make sure to follow me on social media and join our community:
-
-- **YouTube**: [Subscribe to my channel for tutorials and insights](https://www.youtube.com/@zero_analyst)
-- **Instagram**: [Follow me for daily tips and updates](https://www.instagram.com/zero_analyst/)
-- **LinkedIn**: [Connect with me professionally](https://www.linkedin.com/in/najirr)
-- **Discord**: [Join our community to learn and grow together](https://discord.gg/36h5f2Z5PK)
-
-Thank you for your support, and I look forward to connecting with you!
